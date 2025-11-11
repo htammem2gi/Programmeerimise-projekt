@@ -6,12 +6,9 @@ pygame.init()
 
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Point and Click Escape Room)
-font = pygame.font.Font(                        
+font = pygame.font.Font(DeterminationMonoWebRegular-Z5oq.ttf, suurus)               
 
-# Põhivärvid ja taust
-WHITE = (255, 255, 255)
-background = pygame.Surface(screen.get_size())
-background.fill(WHITE)
+background = 
 
 # Mängu peatsükkel
 running = True
