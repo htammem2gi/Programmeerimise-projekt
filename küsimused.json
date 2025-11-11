@@ -1,12 +1,14 @@
 [
   {
-    "objekt": 
+    "objekt": "arvuti"
     "x": 
     "y": 
     "laius": 
     "kõrgus": 
     "küsimus": 
     "valikud": 
+    "õige vastus": 
+    "osa koodist":
   },
   {
     "objekt": 
@@ -17,6 +19,7 @@
     "küsimus": 
     "valikud":
     "õige vastus"
+    "osa koodist":
   },
   {
     "objekt": 
@@ -27,6 +30,7 @@
     "küsimus": 
     "valikud":
     "õige vastus":
+    "osa koodist":
   },
   {
     "objekt": 
@@ -37,6 +41,7 @@
     "küsimus": 
     "valikud":
     "õige vastus":
+    "osa koodist":
   },
   {
     "objekt": 
@@ -47,5 +52,6 @@
     "küsimus": 
     "valikud":
     "õige vastus":
+    "osa koodist":
   }
 ]
