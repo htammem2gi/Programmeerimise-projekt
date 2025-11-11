@@ -2,14 +2,11 @@ import pygame
 import sys
 import json
 
-with open("questions.json, "r", encoding = "utf-8") as f:
-    andmed = json.load(f)
-
 pygame.init()
 
-# Ekraani seadistamine
 screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("Point and Click seiklus")
+pygame.display.set_caption("Point and Click Escape Room)
+font = pygame.font.Font(                        
 
 # Põhivärvid ja taust
 WHITE = (255, 255, 255)
