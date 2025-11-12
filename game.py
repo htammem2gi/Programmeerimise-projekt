@@ -1,4 +1,4 @@
-#Heleri ja Adele
+#2D point-and-click mäng, kus tuleb põgeneda ja lahendada ülesandeid.Heleri ja Adele
 
 import pygame
 import sys
