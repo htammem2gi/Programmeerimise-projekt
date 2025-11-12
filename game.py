@@ -1,3 +1,5 @@
+#Heleri ja Adele
+
 import pygame
 import sys
 import json  # võib jääda, kuigi hetkel ei kasuta
