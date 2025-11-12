@@ -13,22 +13,37 @@ pygame.display.set_caption("Point and Click Escape Room")  # parandatud jutumär
 FONT_SIZE = 24
 font = pygame.font.SysFont(None, FONT_SIZE)
 
-# Lihtne taust (ühtlane värv). Kui sul on pilt, vaata allpool kommentaari.
+# Taust - praegu lihtsalt ühtlane, hiljem saab pildi lisada
 background = pygame.Surface((WIDTH, HEIGHT))
-background.fill((20, 24, 28))
+background.fill((30, 34, 40))
 
 clock = pygame.time.Clock()
 
-# Mängu peatsükkel
+class objekt:
+    def __init__(self, nimi, rect, küsimus = None, valikud = None, vastus = None, osa_koodist = None):
+        self.nimi = objekti_nimi
+        self.rect = rect #asukoht
+        self.küsimus = küsimus
+        self.valikud = valikud
+        self.vastus = vastus
+        self.osa_koodist = osa_koodist
+
+objektid = [] # veel mõtlemisel
+
+aktiivne_objekt = None
+kogutud_kood = ""
+sisestatud_vastus = ""
+
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            print("Klikiti asukohas:", event.pos)
+            print(f"Klikiti objetkil: {objekti_nimi}", event.pos)
 
-    # Joonistamine
+    # rendering
     screen.blit(background, (0, 0))
 
     # Näidistekst, et fonti ka kasutataks
