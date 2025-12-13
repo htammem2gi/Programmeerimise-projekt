@@ -1,60 +1,82 @@
-# küsimuste faili kondikava
-# mõtlesin, et iga õige vastus annaks ühe tähe ja välja pääsemiseks peab tähtedest õige sõna kokku panema (ehk sen see 'osa koodist' asi)
-
 [
   {
-    "objekt": "arvuti"
+    "objekt": "arvuti1",
     "x": 
     "y": 
     "laius": 
     "kõrgus": 
-    "küsimus": 
-    "valikud": 
-    "õige vastus": 
-    "osa koodist":
+    "küsimus": "Mis on selle koodijupi väljund?",
+    "kood": "x = 0\nfor i in range(3):\n    x += i\nprint(x)",
+    "valikud": ["1", "2", "3", "0"],
+    "õige_vastus": 2, 
+    "täht":
   },
   {
-    "objekt": 
+    "objekt": "arvuti2",
+    "x":
+    "y": 
+    "laius": 
+    "kõrgus": 
+    "küsimus": "Mis on selle koodijupi väljund?",
+    "kood": "x = 2\nprint(x > 1 and x == 2 or x == 3)", 
+    "valikud": ["True", "False", "2", "Error"],
+    "õige_vastus": 0, 
+    "täht":
+  },
+  {
+    "objekt": "gloobus",
+    "x":
+    "y": 
+    "laius": 
+    "kõrgus": 
+    "küsimus": "Mis on selle koodijupi väljund?",
+    "kood": "def f(x):\n    return x * 2\n\ndef g(x):\n    return f(x) + 1\n\nprint(g(3))" , 
+    "valikud": ["6", "7", "8", "Error"],
+    "õige_vastus": 1, 
+    "täht":
+  },
+  {
+    "objekt": "õun",
     "x":
     "y": 
     "laius": 
     "kõrgus": 
     "küsimus": 
     "valikud":
-    "õige vastus"
-    "osa koodist":
+    "õige_vastus": 
+    "täht":
   },
   {
-    "objekt": 
+    "objekt": "raamatud",
     "x":
     "y": 
     "laius": 
     "kõrgus": 
     "küsimus": 
     "valikud":
-    "õige vastus":
-    "osa koodist":
+    "õige_vastus": 
+    "täht":
   },
   {
-    "objekt": 
+    "objekt": "textbook",
     "x":
     "y": 
     "laius": 
     "kõrgus": 
     "küsimus": 
     "valikud":
-    "õige vastus":
-    "osa koodist":
+    "õige_vastus": 
+    "täht":
   },
   {
-    "objekt": 
+    "objekt": "vihik",
     "x":
     "y": 
     "laius": 
     "kõrgus": 
     "küsimus": 
     "valikud":
-    "õige vastus":
-    "osa koodist":
+    "õige_vastus": 
+    "täht":
   }
 ]

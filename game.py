@@ -1,8 +1,8 @@
 #2D point-and-click mäng, kus tuleb põgeneda ja lahendada ülesandeid.Heleri ja Adele
 
 import pygame
-import sys
-import json  # võib jääda, kuigi hetkel ei kasuta
+import sys 
+import json 
 
 pygame.init()
 
@@ -43,7 +43,7 @@ while running:
             running = False
         
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            print(f"Klikiti objetkil: {objekti_nimi}", event.pos)
+            print(f"Klikiti objektil: {objekti_nimi}", event.pos)
 
     # rendering
     screen.blit(background, (0, 0))
