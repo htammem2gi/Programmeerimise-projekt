@@ -22,3 +22,8 @@ Failid:
  - salvestus.json (luuakse automaatselt; progress)
  - pildid/ (pildid)
  - fondid, muusika/DeterminationMonoWebRegular-Z5oq.ttf (valikuline font)
+
+## Eelvaade
+
+<img width="803" height="601" alt="image" src="https://github.com/user-attachments/assets/e0987f66-1510-402c-a310-d8e40994f643" />
+<img width="801" height="593" alt="image" src="https://github.com/user-attachments/assets/007efbc0-085b-4755-927a-f8b9e2a80065" />
