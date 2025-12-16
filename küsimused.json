@@ -1,82 +1,92 @@
 [
   {
     "objekt": "arvuti1",
-    "x": 
-    "y": 
-    "laius": 
-    "kõrgus": 
-    "küsimus": "Mis on selle koodijupi väljund?",
-    "kood": "x = 0\nfor i in range(3):\n    x += i\nprint(x)",
-    "valikud": ["1", "2", "3", "0"],
-    "õige_vastus": 2, 
-    "täht":
+    "nimi": "Õunad kokku",
+    "x": 95,
+    "y": 345,
+    "pilt": "arvuti.png",
+    "skaala": 0.25,
+    "küsimus": "Brital on y õuna rohkem kui Anul (x). Kui x=3 ja y=5, mitu õuna on neil kokku?",
+    "kood": "x = 3\ny = 5\n# Anul on x õuna\n# Brital on x + y õuna\nounu_kokku = x + (x + y)\nprint(ounu_kokku)",
+    "valikud": [
+      "8",
+      "11",
+      "13",
+      "16"
+    ],
+    "õige_vastus": 1,
+    "täht": "3"
   },
   {
     "objekt": "arvuti2",
-    "x":
-    "y": 
-    "laius": 
-    "kõrgus": 
-    "küsimus": "Mis on selle koodijupi väljund?",
-    "kood": "x = 2\nprint(x > 1 and x == 2 or x == 3)", 
-    "valikud": ["True", "False", "2", "Error"],
-    "õige_vastus": 0, 
-    "täht":
+    "nimi": "Arvutustrikk",
+    "x": 545,
+    "y": 340,
+    "pilt": "arvuti2.png",
+    "skaala": 0.28,
+    "küsimus": "Programmis tehakse samad tehteid iga sisendiga. Mis prinditakse, kui algne arv n=8?",
+    "kood": "n = 8\nalgne = n\nn = n + 4\nn = n * 2\nn = n - 8\nn = n / algne\nn = n + 7\nprint(n)",
+    "valikud": [
+      "9",
+      "7",
+      "2",
+      "16"
+    ],
+    "õige_vastus": 0,
+    "täht": "1"
   },
   {
     "objekt": "gloobus",
-    "x":
-    "y": 
-    "laius": 
-    "kõrgus": 
-    "küsimus": "Mis on selle koodijupi väljund?",
-    "kood": "def f(x):\n    return x * 2\n\ndef g(x):\n    return f(x) + 1\n\nprint(g(3))" , 
-    "valikud": ["6", "7", "8", "Error"],
-    "õige_vastus": 1, 
-    "täht":
-  },
-  {
-    "objekt": "õun",
-    "x":
-    "y": 
-    "laius": 
-    "kõrgus": 
-    "küsimus": 
-    "valikud":
-    "õige_vastus": 
-    "täht":
+    "nimi": "Paaris või paaritu",
+    "x": 360,
+    "y": 245,
+    "pilt": "gloobus.png",
+    "skaala": 0.23,
+    "küsimus": "Mis prinditakse, kui arv = 14?",
+    "kood": "arv = 14\nif arv % 2 == 0:\n    print('jagub 2-ga!')\n    print('paarisarv')\nelse:\n    print('ei jagu 2-ga!')\n    print('paaritu arv')\nprint('Head aega!')",
+    "valikud": [
+      "jagub 2-ga! / paarisarv / Head aega!",
+      "ei jagu 2-ga! / paaritu arv / Head aega!",
+      "jagub 2-ga! / paaritu arv / Head aega!",
+      "ei jagu 2-ga! / paarisarv / Head aega!"
+    ],
+    "õige_vastus": 0,
+    "täht": "4"
   },
   {
     "objekt": "raamatud",
-    "x":
-    "y": 
-    "laius": 
-    "kõrgus": 
-    "küsimus": 
-    "valikud":
-    "õige_vastus": 
-    "täht":
-  },
-  {
-    "objekt": "textbook",
-    "x":
-    "y": 
-    "laius": 
-    "kõrgus": 
-    "küsimus": 
-    "valikud":
-    "õige_vastus": 
-    "täht":
+    "nimi": "range negatiivse sammuga",
+    "x": 285,
+    "y": 270,
+    "pilt": "raamatud.png",
+    "skaala": 0.25,
+    "küsimus": "Mis väljastatakse?",
+    "kood": "for i in range(4, -5, -3):\n    print(i)",
+    "valikud": [
+      "4, 1, -2 (igaüks eraldi real)",
+      "4, 0, -4 (igaüks eraldi real)",
+      "1, -2, -5 (igaüks eraldi real)",
+      "4, 1, -1 (igaüks eraldi real)"
+    ],
+    "õige_vastus": 0,
+    "täht": "1"
   },
   {
     "objekt": "vihik",
-    "x":
-    "y": 
-    "laius": 
-    "kõrgus": 
-    "küsimus": 
-    "valikud":
-    "õige_vastus": 
-    "täht":
+    "nimi": "Summa tsükliga",
+    "x": 375,
+    "y": 430,
+    "pilt": "vihik.png",
+    "skaala": 0.25,
+    "küsimus": "Mis prinditakse?",
+    "kood": "summa = 0\nfor i in range(1, 6):\n    summa += i\nprint(summa)",
+    "valikud": [
+      "10",
+      "15",
+      "20",
+      "5"
+    ],
+    "õige_vastus": 1,
+    "täht": "5"
   }
 ]
