@@ -25,12 +25,35 @@ Failid:
 from __future__ import annotations
 
 import json
-import os
 import sys
 from dataclasses import dataclass
 from typing import Optional
 
 import pygame
+
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+os.chdir(BASE_DIR)  # et kõik suhtelised teed (pildid/fondid/json) töötaks alati
+
+def leia_kysimuste_fail() -> str:
+    kandidaadid = [
+        "küsimused.json",
+        "k#U00fcsimused.json",   # kui ZIP lahtipakkimine moonutab ü
+        r"k\u00fcsimused.json",  # mõni süsteem jätab escape-teksti nimeks
+    ]
+    for nimi in kandidaadid:
+        tee = os.path.join(BASE_DIR, nimi)
+        if os.path.exists(tee):
+            return tee
+
+    for fn in os.listdir(BASE_DIR):
+        low = fn.lower()
+        if low.endswith(".json") and ("simus" in low or "kysim" in low):
+            return os.path.join(BASE_DIR, fn)
+
+    return os.path.join(BASE_DIR, "küsimused.json")  # et errori tekst oleks loogiline
+
 
 
 AKNA_LAIUS, AKNA_KÕRGUS = 800, 600
