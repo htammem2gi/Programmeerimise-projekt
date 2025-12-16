@@ -4,7 +4,7 @@ Heleri & Adele – 2D point-and-click põgenemismäng (Pygame)
 Kuidas mäng töötab (lühidalt):
  - Näed klassiruumi tausta (pildid/background.png)
  - Klikid objektidel (arvutid, gloobus, raamatud, vihik...)
- - Iga objekt avab küsimuse (koodijupp + 4 valikut)
+ - Iga objekt avab lihtsa programmeerimise ülesande (koodijupp + 4 valikut)
  - Õige vastus annab ühe tähe uksekoodist
  - Kui kõik tähed koos, kliki uksel ja sisesta kood
 
@@ -16,7 +16,7 @@ Kontrollid:
  - R: reset (kustutab salvestuse)
 
 Failid:
- - kusimused.json (küsimused + objektide asukohad)
+ - küsimused.json (küsimused + objektide asukohad)
  - salvestus.json (luuakse automaatselt; progress)
  - pildid/ (pildid)
  - fondid, muusika/DeterminationMonoWebRegular-Z5oq.ttf (valikuline font)
@@ -33,16 +33,14 @@ from typing import Optional
 import pygame
 
 
-# -------------------- Seaded --------------------
-
-AKNA_LAIUS, AKNA_KORGUS = 800, 600
+AKNA_LAIUS, AKNA_KÕRGUS = 800, 600
 FPS = 60
 
-# --- Elud / vead ---
+# palju vigu võib teha
 MAKS_VEAD = 3
 X_FLASH_MS = 650  # kui kaua punane X vilgub pärast viga
 
-KUSIMUSTE_FAIL = "kusimused.json"
+KÜSIMUSTE_FAIL = "küsimused.json"
 SALVESTUS_FAIL = "salvestus.json"
 
 TAUST_FAIL = os.path.join("pildid", "background.png")
@@ -52,11 +50,10 @@ FONDI_FAIL = os.path.join("fondid, muusika", "DeterminationMonoWebRegular-Z5oq.t
 UKSE_RECT = pygame.Rect(690, 145, 90, 330)
 
 
-# -------------------- Andmemudel --------------------
-
+# Andmed ja objektid
 
 @dataclass
-class Kusimus:
+class küsimus:
     objekt: str
     nimi: str
     x: int
@@ -66,26 +63,26 @@ class Kusimus:
     kysimus: str
     kood: str
     valikud: list[str]
-    oige_vastus: int  # indeks 0..3
+    oige_vastus: int 
     taht: str
 
 
 class KlikitavObjekt:
-    def __init__(self, kusimus: Kusimus, pilt_pind: Optional[pygame.Surface], jarjekord: int):
-        self.kusimus = kusimus
+    def __init__(self, küsimus: küsimus, pilt_pind: Optional[pygame.Surface], jarjekord: int):
+        self.küsimus = küsimus
         self.jarjekord = jarjekord
         self.lahendatud = False
 
         self.pilt_pind = pilt_pind
         if self.pilt_pind is not None:
-            if abs(self.kusimus.skaala - 1.0) > 1e-6:
-                uus_w = max(1, int(self.pilt_pind.get_width() * self.kusimus.skaala))
-                uus_h = max(1, int(self.pilt_pind.get_height() * self.kusimus.skaala))
-                self.pilt_pind = pygame.transform.smoothscale(self.pilt_pind, (uus_w, uus_h))
-            self.rect = self.pilt_pind.get_rect(topleft=(self.kusimus.x, self.kusimus.y))
+            if abs(self.küsimus.skaala - 1.0) > 1e-6:
+                uus_w = max(1, int(self.pilt_pind.get_width() * self.küsimus.skaala))
+                uus_h = max(1, int(self.pilt_pind.get_height() * self.küsimus.skaala))
+                self.pilt_pind = pygame.transform.scale(self.pilt_pind, (uus_w, uus_h))
+            self.rect = self.pilt_pind.get_rect(topleft=(self.küsimus.x, self.küsimus.y))
         else:
             # kui pilt puudub, loome nähtamatu ala
-            self.rect = pygame.Rect(self.kusimus.x, self.kusimus.y, 120, 120)
+            self.rect = pygame.Rect(self.küsimus.x, self.küsimus.y, 120, 120)
 
     def joonista(self, ekraan: pygame.Surface, debug: bool, hiir_peal: bool):
         if self.pilt_pind is not None:
@@ -98,8 +95,7 @@ class KlikitavObjekt:
                 pygame.draw.rect(ekraan, (255, 255, 255), self.rect, 1)
 
 
-# -------------------- Failiabi --------------------
-
+# Failiabi
 
 def lae_pilt(tee: str) -> Optional[pygame.Surface]:
     if not tee:
@@ -116,11 +112,11 @@ def lae_taust() -> pygame.Surface:
     if os.path.exists(TAUST_FAIL):
         try:
             img = pygame.image.load(TAUST_FAIL).convert()
-            return pygame.transform.smoothscale(img, (AKNA_LAIUS, AKNA_KORGUS))
+            return pygame.transform.smoothscale(img, (AKNA_LAIUS, AKNA_KÕRGUS))
         except pygame.error:
             pass
     # varutaust
-    varu = pygame.Surface((AKNA_LAIUS, AKNA_KORGUS))
+    varu = pygame.Surface((AKNA_LAIUS, AKNA_KÕRGUS))
     varu.fill((30, 34, 40))
     return varu
 
@@ -151,29 +147,25 @@ def murra_tekst(font: pygame.font.Font, tekst: str, max_laius: int) -> list[str]
     return read
 
 
-def loe_kusimused() -> list[Kusimus]:
-    if not os.path.exists(KUSIMUSTE_FAIL):
+def loe_küsimused() -> list[küsimus]:
+    if not os.path.exists(KÜSIMUSTE_FAIL):
         raise FileNotFoundError(
-            f"Ei leidnud faili '{KUSIMUSTE_FAIL}'.\n"
-            "Tee see fail (näidis on README-s) või kopeeri minu antud näidis."
+            f"Ei leidnud faili '{KÜSIMUSTE_FAIL}'.\n"
         )
 
-    with open(KUSIMUSTE_FAIL, "r", encoding="utf-8") as f:
+    with open(KÜSIMUSTE_FAIL, "r", encoding="utf-8") as f: #avame küsimused.json faili
         andmed = json.load(f)
 
-    kusimused: list[Kusimus] = []
+    küsimused: list[küsimus] = []
     for r in andmed:
-        # lubame pilditeed kahel kujul:
-        #  1) "arvuti.png" (automaatne pildid/)
-        #  2) "pildid/arvuti.png" (otse)
         pilt = r.get("pilt")
         if pilt and not os.path.exists(pilt):
             kandidaadi_tee = os.path.join("pildid", pilt)
             if os.path.exists(kandidaadi_tee):
                 pilt = kandidaadi_tee
 
-        kusimused.append(
-            Kusimus(
+        küsimused.append(
+            küsimus(
                 objekt=r["objekt"],
                 nimi=r.get("nimi", r["objekt"]),
                 x=int(r["x"]),
@@ -187,7 +179,7 @@ def loe_kusimused() -> list[Kusimus]:
                 taht=str(r.get("täht", "")),
             )
         )
-    return kusimused
+    return küsimused
 
 
 def lae_salvestus() -> dict:
@@ -196,7 +188,6 @@ def lae_salvestus() -> dict:
     try:
         with open(SALVESTUS_FAIL, "r", encoding="utf-8") as f:
             data = json.load(f)
-            # tagurpidi ühilduvus: vanas salvestuses polnud "vead"
             if "lahendatud" not in data:
                 data["lahendatud"] = []
             if "vead" not in data:
@@ -215,7 +206,6 @@ def joonista_sydamed(ekraan: pygame.Surface, vead: int):
     """Joonistab elud (3 südant) ülariba paremasse serva."""
 
     def sydame_keskkoht(i: int) -> tuple[int, int]:
-        # i=0 kõige parempoolsem
         x = AKNA_LAIUS - 26 - i * 30
         y = 24
         return x, y
@@ -234,11 +224,10 @@ def joonista_sydamed(ekraan: pygame.Surface, vead: int):
         joonista_sydame_kuju(sydame_keskkoht(i), varv)
 
 
-# -------------------- UI --------------------
-
+# visuaalsed elemendid (UI)
 
 def joonista_varjund(ekraan: pygame.Surface):
-    kiht = pygame.Surface((AKNA_LAIUS, AKNA_KORGUS), pygame.SRCALPHA)
+    kiht = pygame.Surface((AKNA_LAIUS, AKNA_KÕRGUS), pygame.SRCALPHA)
     kiht.fill((0, 0, 0, 180))
     ekraan.blit(kiht, (0, 0))
 
@@ -253,7 +242,7 @@ def joonista_nupp(ekraan: pygame.Surface, font: pygame.font.Font, tekst: str, re
 
 def main() -> None:
     pygame.init()
-    ekraan = pygame.display.set_mode((AKNA_LAIUS, AKNA_KORGUS))
+    ekraan = pygame.display.set_mode((AKNA_LAIUS, AKNA_KÕRGUS))
     pygame.display.set_caption("Heleri & Adele – Põgenemismäng")
     kell = pygame.time.Clock()
 
@@ -263,16 +252,16 @@ def main() -> None:
 
     taust = lae_taust()
 
-    kusimused = loe_kusimused()
+    küsimused = loe_küsimused()
 
     objektid: list[KlikitavObjekt] = []
-    for i, k in enumerate(kusimused):
+    for i, k in enumerate(küsimused):
         pilt = lae_pilt(k.pilt) if k.pilt else None
         objektid.append(KlikitavObjekt(k, pilt, jarjekord=i))
 
     # uksekood: tähtede jada JSON-is olevas järjekorras
-    oodatav_kood = "".join([k.taht for k in kusimused])
-    kood_nahtav = ["_"] * len(kusimused)
+    oodatav_kood = "".join([k.taht for k in küsimused])
+    kood_nahtav = ["_"] * len(küsimused)
 
     # salvestus
     salvestus = lae_salvestus()
@@ -280,12 +269,12 @@ def main() -> None:
     vead = int(salvestus.get("vead", 0))
     punane_x_lopp = 0  # pygame.time.get_ticks() millis
     for obj in objektid:
-        if obj.kusimus.objekt in lahendatud_id:
+        if obj.küsimus.objekt in lahendatud_id:
             obj.lahendatud = True
-            kood_nahtav[obj.jarjekord] = obj.kusimus.taht
+            kood_nahtav[obj.jarjekord] = obj.küsimus.taht
 
     debug = False
-    olek = "tuba"  # tuba | kusimus | lukk | voit | kaotus
+    olek = "tuba"  # tuba | küsimus | lukk | võit | kaotus
     aktiivne: Optional[KlikitavObjekt] = None
     sisestatud_kood = ""
     teade = ""
@@ -333,7 +322,7 @@ def main() -> None:
                         os.remove(SALVESTUS_FAIL)
                     for o in objektid:
                         o.lahendatud = False
-                    kood_nahtav = ["_"] * len(kusimused)
+                    kood_nahtav = ["_"] * len(küsimused)
                     lahendatud_id.clear()
                     vead = 0
                     punane_x_lopp = 0
@@ -343,29 +332,29 @@ def main() -> None:
                     naita_teadet("Reset tehtud.")
 
                 if ev.key == pygame.K_ESCAPE:
-                    if olek in ("kusimus", "lukk"):
+                    if olek in ("küsimus", "lukk"):
                         olek = "tuba"
                         aktiivne = None
                         sisestatud_kood = ""
-                    elif olek in ("voit", "kaotus"):
+                    elif olek in ("võit", "kaotus"):
                         pygame.quit()
                         sys.exit()
                     else:
                         pygame.quit()
                         sys.exit()
 
-                if olek == "kusimus" and aktiivne is not None:
+                if olek == "küsimus" and aktiivne is not None:
                     if pygame.K_1 <= ev.key <= pygame.K_4:
                         valik = ev.key - pygame.K_1
-                        if valik < len(aktiivne.kusimus.valikud):
+                        if valik < len(aktiivne.küsimus.valikud):
                             # kontroll
-                            if valik == aktiivne.kusimus.oige_vastus:
+                            if valik == aktiivne.küsimus.oige_vastus:
                                 if not aktiivne.lahendatud:
                                     aktiivne.lahendatud = True
-                                    kood_nahtav[aktiivne.jarjekord] = aktiivne.kusimus.taht
-                                    lahendatud_id.add(aktiivne.kusimus.objekt)
+                                    kood_nahtav[aktiivne.jarjekord] = aktiivne.küsimus.taht
+                                    lahendatud_id.add(aktiivne.küsimus.objekt)
                                     salvesta_progress()
-                                naita_teadet(f"Õige! Täht: {aktiivne.kusimus.taht}")
+                                naita_teadet(f"Õige! Täht: {aktiivne.küsimus.taht}")
                                 olek = "tuba"
                                 aktiivne = None
                             else:
@@ -376,7 +365,7 @@ def main() -> None:
                         sisestatud_kood = sisestatud_kood[:-1]
                     elif ev.key == pygame.K_RETURN:
                         if sisestatud_kood.upper() == oodatav_kood.upper():
-                            olek = "voit"
+                            olek = "võit"
                         else:
                             registreeri_viga("Vale kood")
                             sisestatud_kood = ""
@@ -407,25 +396,25 @@ def main() -> None:
                                 naita_teadet("See on juba lahendatud.")
                                 aktiivne = None
                             else:
-                                olek = "kusimus"
+                                olek = "küsimus"
                             break
 
-                elif olek == "kusimus" and aktiivne is not None:
+                elif olek == "küsimus" and aktiivne is not None:
                     # nupud
-                    paneel = pygame.Rect(110, 70, 580, 460)
+                    paneel = pygame.Rect(110, 90, 580, 400)
                     nupu_w = paneel.width - 40
-                    nupu_h = 44
-                    alg_y = paneel.bottom - (nupu_h + 12) * 4 - 18
+                    nupu_h = 36
+                    alg_y = paneel.bottom - (nupu_h + 8) * 4 - 12
                     for i in range(4):
                         nupp = pygame.Rect(paneel.x + 20, alg_y + i * (nupu_h + 12), nupu_w, nupu_h)
                         if nupp.collidepoint(hiir):
-                            if i == aktiivne.kusimus.oige_vastus:
+                            if i == aktiivne.küsimus.oige_vastus:
                                 if not aktiivne.lahendatud:
                                     aktiivne.lahendatud = True
-                                    kood_nahtav[aktiivne.jarjekord] = aktiivne.kusimus.taht
-                                    lahendatud_id.add(aktiivne.kusimus.objekt)
+                                    kood_nahtav[aktiivne.jarjekord] = aktiivne.küsimus.taht
+                                    lahendatud_id.add(aktiivne.küsimus.objekt)
                                     salvesta_progress()
-                                naita_teadet(f"Õige! Täht: {aktiivne.kusimus.taht}")
+                                naita_teadet(f"Õige! Täht: {aktiivne.küsimus.taht}")
                                 olek = "tuba"
                                 aktiivne = None
                             else:
@@ -444,7 +433,7 @@ def main() -> None:
         for o in objektid:
             o.joonista(ekraan, debug, o.rect.collidepoint(hiir))
 
-        # ülariba
+        # ülemine riba
         pygame.draw.rect(ekraan, (18, 18, 22), pygame.Rect(0, 0, AKNA_LAIUS, 48))
         pygame.draw.line(ekraan, (80, 80, 80), (0, 48), (AKNA_LAIUS, 48), 2)
         ekraan.blit(font.render("Kood: " + " ".join(kood_nahtav), True, (240, 240, 240)), (14, 12))
@@ -452,47 +441,64 @@ def main() -> None:
 
         # teade
         if teade and pygame.time.get_ticks() < teade_lopp:
-            kast = pygame.Rect(14, AKNA_KORGUS - 52, AKNA_LAIUS - 28, 40)
+            kast = pygame.Rect(14, AKNA_KÕRGUS - 52, AKNA_LAIUS - 28, 40)
             pygame.draw.rect(ekraan, (0, 0, 0), kast, border_radius=10)
             pygame.draw.rect(ekraan, (220, 220, 220), kast, 2, border_radius=10)
             ekraan.blit(font.render(teade, True, (240, 240, 240)), (kast.x + 12, kast.y + 10))
 
         # küsimuse aken
-        if olek == "kusimus" and aktiivne is not None:
+        if olek == "küsimus" and aktiivne is not None:
             joonista_varjund(ekraan)
             paneel = pygame.Rect(110, 70, 580, 460)
             pygame.draw.rect(ekraan, (25, 28, 34), paneel, border_radius=14)
             pygame.draw.rect(ekraan, (220, 220, 220), paneel, 2, border_radius=14)
 
             # pealkiri
-            ekraan.blit(font_suur.render(aktiivne.kusimus.nimi, True, (245, 245, 245)), (paneel.x + 18, paneel.y + 12))
+            ekraan.blit(font_suur.render(aktiivne.küsimus.nimi, True, (245, 245, 245)), (paneel.x + 18, paneel.y + 12))
 
             # küsimus
-            read = murra_tekst(font, aktiivne.kusimus.kysimus, paneel.width - 36)
+            read = murra_tekst(font, aktiivne.küsimus.kysimus, paneel.width - 36)
             y = paneel.y + 54
             for r in read:
                 ekraan.blit(font.render(r, True, (235, 235, 235)), (paneel.x + 18, y))
                 y += 24
 
             # koodiblokk
-            kood_rect = pygame.Rect(paneel.x + 18, y + 6, paneel.width - 36, 165)
+            nupu_h = 26
+            vahe = 6
+            valikute_arv = 4
+
+            valikute_ruum = valikute_arv * nupu_h + (valikute_arv - 1) * vahe + 20 # määrame kui palju ruumi on valikute mahutamisek vaja
+
+            maks_koodi_kõrgus = (paneel.bottom - valikute_ruum - y- 20)
+
+            kood_kõrgus = min(210, maks_koodi_kõrgus)
+
+            kood_rect = pygame.Rect(paneel.x + 18,y + 6,paneel.width - 36,kood_kõrgus)
+
             pygame.draw.rect(ekraan, (15, 16, 20), kood_rect, border_radius=10)
             pygame.draw.rect(ekraan, (90, 90, 90), kood_rect, 2, border_radius=10)
             ky = kood_rect.y + 10
-            for r in aktiivne.kusimus.kood.split("\n")[:8]:
+            for r in aktiivne.küsimus.kood.split("\n")[:8]:
+                if ky + 20 > kood_rect.bottom:
+                    break
                 ekraan.blit(font_kood.render(r, True, (210, 245, 210)), (kood_rect.x + 10, ky))
                 ky += 20
 
             # valikud
             nupu_w = paneel.width - 40
-            nupu_h = 44
-            alg_y = paneel.bottom - (nupu_h + 12) * 4 - 18
-            for i in range(4):
-                nupp = pygame.Rect(paneel.x + 20, alg_y + i * (nupu_h + 12), nupu_w, nupu_h)
-                tekst = aktiivne.kusimus.valikud[i] if i < len(aktiivne.kusimus.valikud) else "-"
-                joonista_nupp(ekraan, font, f"{i+1}) {tekst}", nupp, nupp.collidepoint(hiir))
+            nupu_h = 26
+            footer = 32 # alumine osa ehk footer, et valikud ei kataks teksti ära
+            alg_y = min(kood_rect.bottom + 10, paneel.bottom - footer - (nupu_h + 6) * 4)
+            font_nupp = lae_font(18)
+            font_tagasi = lae_font(14)
 
-            ekraan.blit(font.render("ESC = tagasi", True, (200, 200, 200)), (paneel.x + 18, paneel.bottom - 28))
+            for i in range(4):
+                nupp = pygame.Rect(paneel.x + 20, alg_y + i * (nupu_h + 6), nupu_w, nupu_h)
+                tekst = aktiivne.küsimus.valikud[i] if i < len(aktiivne.küsimus.valikud) else "-"
+                joonista_nupp(ekraan, font_nupp, f"{i+1}) {tekst}",nupp, nupp.collidepoint(hiir))
+
+            ekraan.blit(font_tagasi.render("ESC - tagasi", True, (200, 200, 200)), (paneel.x + 18, paneel.bottom - 28))
 
         # luku aken
         if olek == "lukk":
@@ -511,9 +517,9 @@ def main() -> None:
             ekraan.blit(font.render("ESC = tagasi", True, (200, 200, 200)), (paneel.x + 18, paneel.bottom - 28))
 
         # võit
-        if olek == "voit":
+        if olek == "võit":
             joonista_varjund(ekraan)
-            t1 = font_suur.render("🎉 Põgenesid!", True, (255, 255, 255))
+            t1 = font_suur.render("Põgenesid!", True, (255, 255, 255))
             t2 = font.render("ESC = sulge mäng", True, (220, 220, 220))
             ekraan.blit(t1, t1.get_rect(center=(AKNA_LAIUS // 2, 270)))
             ekraan.blit(t2, t2.get_rect(center=(AKNA_LAIUS // 2, 310)))
@@ -521,7 +527,7 @@ def main() -> None:
         # kaotus
         if olek == "kaotus":
             joonista_varjund(ekraan)
-            t1 = font_suur.render("💥 Süda murdus…", True, (255, 255, 255))
+            t1 = font_suur.render("Sa kaotasid!", True, (255, 255, 255))
             t2 = font.render(f"Sul sai {MAKS_VEAD} viga täis.", True, (220, 220, 220))
             t3 = font.render("R = proovi uuesti | ESC = sulge", True, (220, 220, 220))
             ekraan.blit(t1, t1.get_rect(center=(AKNA_LAIUS // 2, 255)))
@@ -530,7 +536,7 @@ def main() -> None:
 
         # punane X (vilgub pärast viga)
         if pygame.time.get_ticks() < punane_x_lopp:
-            cx, cy = AKNA_LAIUS // 2, AKNA_KORGUS // 2
+            cx, cy = AKNA_LAIUS // 2, AKNA_KÕRGUS // 2
             pikkus = 70
             pygame.draw.line(ekraan, (230, 50, 50), (cx - pikkus, cy - pikkus), (cx + pikkus, cy + pikkus), 12)
             pygame.draw.line(ekraan, (230, 50, 50), (cx + pikkus, cy - pikkus), (cx - pikkus, cy + pikkus), 12)

@@ -1,11 +1,11 @@
 [
   {
     "objekt": "arvuti1",
-    "nimi": "Õunad kokku",
-    "x": 95,
-    "y": 345,
+    "nimi": "Õunad",
+    "x": -5,
+    "y": 340,
     "pilt": "arvuti.png",
-    "skaala": 0.25,
+    "skaala": 0.25, 
     "küsimus": "Brital on y õuna rohkem kui Anul (x). Kui x=3 ja y=5, mitu õuna on neil kokku?",
     "kood": "x = 3\ny = 5\n# Anul on x õuna\n# Brital on x + y õuna\nounu_kokku = x + (x + y)\nprint(ounu_kokku)",
     "valikud": [
@@ -14,14 +14,14 @@
       "13",
       "16"
     ],
-    "õige_vastus": 1,
-    "täht": "3"
+    "õige_vastus": 2,
+    "täht": "P"
   },
   {
     "objekt": "arvuti2",
-    "nimi": "Arvutustrikk",
-    "x": 545,
-    "y": 340,
+    "nimi": "Arvutus",
+    "x": 610,
+    "y": 328,
     "pilt": "arvuti2.png",
     "skaala": 0.28,
     "küsimus": "Programmis tehakse samad tehteid iga sisendiga. Mis prinditakse, kui algne arv n=8?",
@@ -32,8 +32,8 @@
       "2",
       "16"
     ],
-    "õige_vastus": 0,
-    "täht": "1"
+    "õige_vastus": 1,
+    "täht": "Y"
   },
   {
     "objekt": "gloobus",
@@ -45,17 +45,17 @@
     "küsimus": "Mis prinditakse, kui arv = 14?",
     "kood": "arv = 14\nif arv % 2 == 0:\n    print('jagub 2-ga!')\n    print('paarisarv')\nelse:\n    print('ei jagu 2-ga!')\n    print('paaritu arv')\nprint('Head aega!')",
     "valikud": [
-      "jagub 2-ga! / paarisarv / Head aega!",
       "ei jagu 2-ga! / paaritu arv / Head aega!",
       "jagub 2-ga! / paaritu arv / Head aega!",
-      "ei jagu 2-ga! / paarisarv / Head aega!"
+      "ei jagu 2-ga! / paarisarv / Head aega!",
+      "jagub 2-ga! / paarisarv / Head aega!"
     ],
-    "õige_vastus": 0,
-    "täht": "4"
+    "õige_vastus": 3,
+    "täht": "T"
   },
   {
     "objekt": "raamatud",
-    "nimi": "range negatiivse sammuga",
+    "nimi": "Negatiivse sammuga range",
     "x": 285,
     "y": 270,
     "pilt": "raamatud.png",
@@ -68,16 +68,16 @@
       "1, -2, -5 (igaüks eraldi real)",
       "4, 1, -1 (igaüks eraldi real)"
     ],
-    "õige_vastus": 0,
-    "täht": "1"
+    "õige_vastus": 1,
+    "täht": "H"
   },
   {
     "objekt": "vihik",
     "nimi": "Summa tsükliga",
-    "x": 375,
-    "y": 430,
+    "x": 316,
+    "y": 524,
     "pilt": "vihik.png",
-    "skaala": 0.25,
+    "skaala": 0.2,
     "küsimus": "Mis prinditakse?",
     "kood": "summa = 0\nfor i in range(1, 6):\n    summa += i\nprint(summa)",
     "valikud": [
@@ -87,6 +87,24 @@
       "5"
     ],
     "õige_vastus": 1,
-    "täht": "5"
+    "täht": "O"
+  },
+  {
+    "objekt": "õun",
+    "nimi": "Luku kood",
+    "x": 393,
+    "y": 384,
+    "pilt": "õun.png",
+    "skaala": 0.15,
+    "küsimus": "Mis on luku kood?",
+    "kood": "kood = ''\nfor i in range(1, 6):\n    if i % 2 == 0:\n        kood += str(i * 2)\n    else:\n        kood += str(i + 1)\nprint(kood)",
+    "valikud": [
+      "2468",
+      "246810",
+      "24486",
+      "13579"
+    ],
+    "õige_vastus": 3,
+    "täht": "N"
   }
 ]
