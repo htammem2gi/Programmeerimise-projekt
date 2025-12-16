@@ -14,7 +14,7 @@ Kuidas mäng töötab (lühidalt):
 Kontrollid:
  - Hiireklikk: vali objekt / vali vastus / kliki uksel
  - 1-4: vali vastus klaviatuurilt
- - ESC: sulge küsimus / mine tagasi
+ - ESC: sulge küsimus / mine tagasi ja paneb kogu mänguekraani kinni, kui oled lõpetanud
  - F3: debug (näitab klikialasid ja prindib koordinaate)
  - R: reset (kustutab salvestuse)
 
