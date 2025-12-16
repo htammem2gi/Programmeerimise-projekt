@@ -171,12 +171,11 @@ def murra_tekst(font: pygame.font.Font, tekst: str, max_laius: int) -> list[str]
 
 
 def loe_küsimused() -> list[küsimus]:
-    if not os.path.exists(KÜSIMUSTE_FAIL):
-        raise FileNotFoundError(
-            f"Ei leidnud faili '{KÜSIMUSTE_FAIL}'.\n"
-        )
+    failitee = leia_kysimuste_fail()
+    if not os.path.exists(failitee):
+        raise FileNotFoundError(f"Ei leidnud faili: '{failitee}'.\n")
 
-    with open(KÜSIMUSTE_FAIL, "r", encoding="utf-8") as f: #avame küsimused.json faili
+    with open(failitee, "r", encoding="utf-8") as f: #avame küsimused.json faili
         andmed = json.load(f)
 
     küsimused: list[küsimus] = []
@@ -570,3 +569,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
